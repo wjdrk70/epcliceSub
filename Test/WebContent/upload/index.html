@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+<meta name="google-signin-client_id" content="678430411189-nbo0ttoj8tcss9oqp75b09m5b8n2jif6.apps.googleusercontent.com">
+</head>
+<body>
+	<input type="button" id="loginBtn" value="login">
+	<div id="googleSigninButton" style="display:none;"></div>
+	<br />
+	<br />
+	<br />
+	<span id="result"></span>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+	<script>
+		$("#loginBtn").on("click", function(){
+			$(".abcRioButtonContents").trigger("click");
+		});
+		function onSignIn(googleUser) {
+			var profile = googleUser.getBasicProfile();
+			$("span#result").html("id : "+profile.getId()+"<br />"+"email : "+profile.getEmail()+"<br />"+"name : "+profile.getName());
+		}
+		function onLoad() {
+			gapi.load('auth2,signin2', function() {
+				var auth2 = gapi.auth2.init();
+				auth2.then(function() {
+					var isSignedIn = auth2.isSignedIn.get();
+					var currentUser = auth2.currentUser.get();
+					gapi.signin2.render('googleSigninButton', {
+						'onsuccess' : 'onSignIn',
+						'longtitle' : true,
+						'theme' : 'dark',
+						'width' : '0'
+					});
+				});
+			});
+		}
+	</script>
+</body>
+</html>
